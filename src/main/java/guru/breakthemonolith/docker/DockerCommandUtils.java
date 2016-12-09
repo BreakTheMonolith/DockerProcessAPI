@@ -1,9 +1,7 @@
 package guru.breakthemonolith.docker;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +35,7 @@ public class DockerCommandUtils {
 	 */
 	public static void dockerPull(String imageName) {
 		Validate.notBlank(imageName, "Null or blank imageName not allowed.");
-		issueCommand(new String[] { "docker", "pull", imageName }, "Error with 'docker pull'",
+		CommandUtils.issueCommand(new String[] { "docker", "pull", imageName }, "Error with 'docker pull'",
 				new Pair[] { new ImmutablePair("imageName", imageName) });
 	}
 
@@ -48,7 +46,7 @@ public class DockerCommandUtils {
 	 */
 	public static void dockerKillContainer(String containerName) {
 		Validate.notBlank(containerName, "Null or blank containerName not allowed.");
-		issueCommand(new String[] { "docker", "rm", "-f", containerName }, "Error with 'docker rm'",
+		CommandUtils.issueCommand(new String[] { "docker", "rm", "-f", containerName }, "Error with 'docker rm'",
 				new Pair[] { new ImmutablePair("containerName", containerName) });
 	}
 
@@ -58,7 +56,7 @@ public class DockerCommandUtils {
 	 * @param containerName
 	 */
 	public static void dockerContainerListing() {
-		issueCommand(new String[] { "docker", "ps" }, "Error with 'docker ps'");
+		CommandUtils.issueCommand(new String[] { "docker", "ps" }, "Error with 'docker ps'");
 	}
 
 	/**
@@ -121,7 +119,7 @@ public class DockerCommandUtils {
 
 		logger.info("Docker command: {}", commandStr);
 		try {
-			Process docker = createProcess(commandArray);
+			Process docker = CommandUtils.createProcess(commandArray);
 			if (dockerRunSpecification.isDetachInd()) {
 				Thread.sleep(dockerRunSpecification.getDetachedWaitTimeMillis());
 
@@ -136,7 +134,7 @@ public class DockerCommandUtils {
 					logger.error(stdErr);
 				}
 			} else {
-				waitForThrowingException(docker, commandStr);
+				CommandUtils.waitForThrowingException(docker, commandStr);
 			}
 		} catch (Exception e) {
 			throw new ContextedRuntimeException("Error with 'docker run'", e)
@@ -146,51 +144,5 @@ public class DockerCommandUtils {
 		}
 
 		return containerName;
-	}
-
-	private static void issueCommand(String[] commandArray, String errorMessage) {
-		issueCommand(commandArray, errorMessage, null);
-	}
-
-	private static void issueCommand(String[] commandArray, String errorMessage,
-			Pair<String, Object>[] errorContextValues) {
-		String commandStr = StringUtils.join(commandArray, ' ');
-
-		logger.info("Docker command: {}", commandStr);
-		try {
-			Process docker = createProcess(commandArray);
-			waitForThrowingException(docker, commandStr);
-		} catch (Exception e) {
-			ContextedRuntimeException cEx = new DockerProcessAPIException("Error with 'docker run'", e)
-					.addContextValue("commandStr", commandStr);
-			if (errorContextValues != null) {
-				for (Pair<String, Object> pair : errorContextValues) {
-					cEx.addContextValue(pair.getKey(), pair.getValue());
-				}
-			}
-			throw cEx;
-		}
-	}
-
-	private static void waitForThrowingException(Process process, String commandStr)
-			throws InterruptedException, IOException {
-		int rc = process.waitFor();
-		String stdOut = IOUtils.toString(process.getInputStream(), Charset.defaultCharset());
-		String stdErr = IOUtils.toString(process.getErrorStream(), Charset.defaultCharset());
-
-		logger.info(stdOut);
-		if (StringUtils.isNoneBlank(stdErr)) {
-			logger.error(stdErr);
-		}
-		if (rc != 0) {
-			throw new DockerProcessAPIException("Command Error reported")
-					.addContextValue("commandStr", commandStr)
-					.addContextValue("standardError", stdErr)
-					.addContextValue("standardOut", stdOut);
-		}
-	}
-
-	private static Process createProcess(String[] commandArray) throws IOException {
-		return new ProcessBuilder(commandArray).start();
 	}
 }
