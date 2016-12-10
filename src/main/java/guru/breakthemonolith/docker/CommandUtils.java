@@ -33,7 +33,7 @@ class CommandUtils {
 			Process docker = createProcess(commandArray);
 			waitForThrowingException(docker, commandStr);
 		} catch (Exception e) {
-			ContextedRuntimeException cEx = new DockerProcessAPIException("Error with 'docker run'", e)
+			ContextedRuntimeException cEx = new DockerProcessAPIException(errorMessage, e)
 					.addContextValue("commandStr", commandStr);
 			if (errorContextValues != null) {
 				for (Pair<String, Object> pair : errorContextValues) {

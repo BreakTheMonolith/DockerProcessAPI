@@ -1,7 +1,7 @@
 # DockerProcessAPI
-A Java API that makes it easy to issue local docker commands programatically. This
-assumes that the machine in which this runs can issue a 'docker ps' from a normal command
-line (not from within a docker-machine).
+A Java API that makes it easy to issue local docker and docker-compose commands programatically. This
+assumes that the machine in which this runs can issue a 'docker ps' and a 'docker-compose version' 
+from a normal command line (not from within a docker-machine).
 
 If your installation requires a docker-machine (e.g. you have a mac or a windows 
 machine without Hyper-V / Docker capabilities), then you should use the Spotify
@@ -17,7 +17,18 @@ A full example can be found [here](https://github.com/BreakTheMonolith/btm-Dropw
 methods to place logic to bring up an instance of RabbitMQ for integration test cases and shut them
 down after the tests complete.
 
+### Docker Examples
+* [Pull a docker image](#user-content-pull-a-docker-image)
+* [Log active docker containers](#user-content-run-docker-image)
+* [Run docker containers](#user-content-run-docker-image)
+* [Kill running docker container](#user-content-kill-docker-container)
+
+### Docker-Compose Examples
+* []()
+
 ### Pull a Docker Image
+Issues 'docker pull'.
+
 Example usage:
 ```  
 import guru.breakthemonolith.docker.DockerCommandUtils;
@@ -26,6 +37,10 @@ DockerCommandUtils.dockerPull("hello-world");
 ```  
 
 ### List Active Docker Containers
+Issues 'docker ps'.
+
+All output will appear in the log under the logger name 'DockerProcessAPI'.
+
 Example usage:
 ```  
 import guru.breakthemonolith.docker.DockerCommandUtils;
@@ -34,6 +49,8 @@ DockerCommandUtils.dockerContainerListing();
 ```  
 
 ### Run Docker Image
+Issues 'docker run'.
+
 Docker images can be run instream or dispatched. If the docker image is run instream, 
 the image will be run in a blocking fashion and the image run will complete before
 control is returned to the caller.  If the image is dispatched, control will be
@@ -62,16 +79,61 @@ DockerCommandUtils.dockerKillContainer(rabbitMQContainerName);
 ```  
 
 ### Kill Docker Container
+Issues 'docker kill'.
+
 Example usage:
 ```  
 import guru.breakthemonolith.docker.DockerCommandUtils;
 
 DockerCommandUtils.dockerKillContainer("foo");
 ```  
+### Bring up docker compose environment
+Issues 'docker-compose up -d'.
+
+Example usage:
+```  
+import guru.breakthemonolith.docker.ComposeCommandUtils;
+import guru.breakthemonolith.docker.DockerComposeConfiguration;
+
+ComposeCommandUtils.composeUp(new DockerComposeConfiguration("myEnvironment.yml"));
+```  
+### Shutdown docker compose environment
+Issues 'docker-compose down'.
+
+Example usage:
+```  
+import guru.breakthemonolith.docker.ComposeCommandUtils;
+import guru.breakthemonolith.docker.DockerComposeConfiguration;
+
+ComposeCommandUtils.composeDown(new DockerComposeConfiguration("myEnvironment.yml"));
+```  
+
+### Log running docker compose environments
+Issues 'docker-compose ps'.
+
+Example usage:
+```  
+import guru.breakthemonolith.docker.ComposeCommandUtils;
+import guru.breakthemonolith.docker.DockerComposeConfiguration;
+
+ComposeCommandUtils.composeListing(new DockerComposeConfiguration("myEnvironment.yml"));
+```  
+
+### Log a specific docker compose configuration
+Issues 'docker-compose config'.
+
+Example usage:
+```  
+import guru.breakthemonolith.docker.ComposeCommandUtils;
+import guru.breakthemonolith.docker.DockerComposeConfiguration;
+
+ComposeCommandUtils.composeConfig(new DockerComposeConfiguration("myEnvironment.yml"));
+```  
 
 ## System Requirements
 * Java JDK 1.7 or later
 * Linux operating system or Windows 10 Pro or Enterprise with Hyper-V functioning with Docker
+* Docker and docker-compose should be installed and functioning.
 
 ## Installation
 Maven users can find dependency information [here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22guru.breakthemonolith%22%20AND%20a%3A%22DockerProcessAPI%22).

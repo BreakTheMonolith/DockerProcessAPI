@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to execute Docker-related commands locally. This assumes that
- * command 'docker ps' works on the machine that this is executed on.
+ * command 'docker ps' works on the machine that this executes on.
  * 
  * @author D. Ashmore
  *
@@ -51,7 +51,8 @@ public class DockerCommandUtils {
 	}
 
 	/**
-	 * Lists all running Docker containers (issues 'docker ps').
+	 * Logs all running Docker containers (issues 'docker ps'). All output under
+	 * logger 'DockerProcessAPI'.
 	 * 
 	 * @param containerName
 	 */
