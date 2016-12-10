@@ -24,7 +24,10 @@ down after the tests complete.
 * [Kill running docker container](#user-content-kill-docker-container)
 
 ### Docker-Compose Examples
-* []()
+* [Start docker compose environment](#user-content-bring-up-docker-compose-environment)
+* [Shutdown docker compose environment](#user-content-shutdown-docker-compose-environment)
+* [Log running docker compose environments](#user-content-log-running-docker-compose-environments)
+* [Log a specific docker compose configuration](#user-content-log-a-specific-docker-compose-configuration)
 
 ### Pull a Docker Image
 Issues 'docker pull'.
