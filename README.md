@@ -24,6 +24,7 @@ down after the tests complete.
 * [Log active docker containers](#user-content-run-docker-image)
 * [Run docker containers](#user-content-run-docker-image)
 * [Kill running docker container](#user-content-kill-docker-container)
+* [Obtain log output from Container](#user-content-obtain-log-output-from-a-running-docker-container)
 
 ### Docker-Compose Examples
 * [Start docker compose environment](#user-content-bring-up-docker-compose-environment)
@@ -90,8 +91,19 @@ Example usage:
 ```  
 import guru.breakthemonolith.docker.DockerCommandUtils;
 
-DockerCommandUtils.dockerKillContainer("foo");
+DockerCommandUtils.dockerKillContainer(rabbitMQContainerName);
 ```  
+
+### Obtain log output from a running Docker Container
+Issues 'docker logs --details'.
+
+Example usage:
+```  
+import guru.breakthemonolith.docker.DockerCommandUtils;
+
+DockerCommandUtils.dockerLogContainer(rabbitMQContainerName);
+```  
+
 ### Bring up docker compose environment
 Issues 'docker-compose up -d'.
 

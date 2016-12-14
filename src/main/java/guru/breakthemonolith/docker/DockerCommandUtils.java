@@ -51,6 +51,18 @@ public class DockerCommandUtils {
 	}
 
 	/**
+	 * Logs "log" output from a running container ('docker logs --details').
+	 * 
+	 * @param containerName
+	 */
+	public static void dockerLogContainer(String containerName) {
+		Validate.notBlank(containerName, "Null or blank containerName not allowed.");
+		CommandUtils.issueCommand(new String[] { "docker", "logs", "--details", containerName },
+				"Error with 'docker logs'",
+				new Pair[] { new ImmutablePair("containerName", containerName) });
+	}
+
+	/**
 	 * Logs all running Docker containers (issues 'docker ps'). All output under
 	 * logger 'DockerProcessAPI'.
 	 * 

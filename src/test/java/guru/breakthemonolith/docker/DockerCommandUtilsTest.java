@@ -25,6 +25,7 @@ public class DockerCommandUtilsTest {
 	@Before
 	public void setUp() throws Exception {
 		FieldUtils.writeStaticField(DockerCommandUtils.class, "logger", loggerMock, true);
+		FieldUtils.writeStaticField(CommandUtils.class, "logger", loggerMock, true);
 		logArgStr = ArgumentCaptor.forClass(String.class);
 	}
 
@@ -57,8 +58,8 @@ public class DockerCommandUtilsTest {
 	@Test
 	public void testDockerContainerListing() throws Exception {
 		DockerCommandUtils.dockerContainerListing();
-		// Mockito.verify(loggerMock).info(logArgStr.capture());
-		// Assert.assertTrue(logArgStr.getValue().contains("COMMAND"));
+		Mockito.verify(loggerMock).info(logArgStr.capture());
+		Assert.assertTrue(logArgStr.getValue().contains("COMMAND"));
 	}
 
 	@Test
@@ -92,6 +93,29 @@ public class DockerCommandUtilsTest {
 		DockerRunSpecification spec = new DockerRunSpecification("rabbitmq");
 		String containerName = DockerCommandUtils.dockerRun(spec);
 		Assert.assertNotNull(containerName);
+
+		DockerCommandUtils.dockerLogContainer(containerName);
+
+		Thread.sleep(5000);
+		DockerCommandUtils.dockerKillContainer(containerName);
+		try {
+			DockerCommandUtils.dockerKillContainer(containerName);
+			Assert.fail();
+		} catch (Exception e) {
+			// NoOp
+		}
+	}
+
+	@Test
+	public void testDockerLogs() throws Exception {
+		DockerRunSpecification spec = new DockerRunSpecification("rabbitmq");
+		String containerName = DockerCommandUtils.dockerRun(spec);
+		Assert.assertNotNull(containerName);
+
+		Mockito.reset(loggerMock);
+		DockerCommandUtils.dockerLogContainer(containerName);
+		Mockito.verify(loggerMock).info(logArgStr.capture());
+		Assert.assertTrue(logArgStr.getValue().contains("=INFO REPORT===="));
 
 		Thread.sleep(5000);
 		DockerCommandUtils.dockerKillContainer(containerName);
