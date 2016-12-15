@@ -13,9 +13,6 @@ public class DockerComposeConfiguration extends ValueObjectBase {
 	private String configYamlFileName;
 	private String projectName;
 
-	public DockerComposeConfiguration() {
-	}
-
 	public DockerComposeConfiguration(String configurationYamlFileName) {
 		this.setConfigYamlFileName(configurationYamlFileName);
 	}
