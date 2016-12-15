@@ -59,6 +59,16 @@ public class ComposeCommandUtils {
 		issueBasicCommand(new String[] { "config" }, dockerComposeConfig);
 	}
 
+	/**
+	 * Logs all logged output from a docker-compose environment ('docker-compose
+	 * logs').
+	 * 
+	 * @param dockerComposeConfig
+	 */
+	public static void composeLogs(DockerComposeConfiguration dockerComposeConfig) {
+		issueBasicCommand(new String[] { "logs" }, dockerComposeConfig);
+	}
+
 	private static String[] createCommandArray(DockerComposeConfiguration dockerComposeConfig) {
 		Validate.notNull(dockerComposeConfig, "Null dockerComposeConfig not allowed.");
 		Validate.notBlank(dockerComposeConfig.getConfigYamlFileName(),

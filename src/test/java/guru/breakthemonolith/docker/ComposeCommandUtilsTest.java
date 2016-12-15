@@ -13,10 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComposeCommandUtilsTest {
 
+	private static Logger logger = LoggerFactory.getLogger(DockerCommandUtils.LOGGER_LABEL);
 	private static final String TEST_YAML = "src/test/composeYml/test1.yaml";
 
 	@Mock
@@ -53,10 +55,19 @@ public class ComposeCommandUtilsTest {
 	}
 
 	@Test
+	public void testComposeLogs() throws Exception {
+		ComposeCommandUtils.composeLogs(config);
+		Mockito.verify(loggerMock).info(Matchers.anyString(), commandStr.capture());
+		Assert.assertTrue(commandStr.getValue().contains("logs"));
+	}
+
+	@Test
 	public void testComposeUpDown() throws Exception {
 		ComposeCommandUtils.composeUp(config);
 		Mockito.verify(loggerMock).info(Matchers.anyString(), commandStr.capture());
 		Assert.assertTrue(commandStr.getValue().contains("up -d"));
+
+		ComposeCommandUtils.composeLogs(config);
 
 		Mockito.reset(loggerMock);
 		ComposeCommandUtils.composeDown(config);

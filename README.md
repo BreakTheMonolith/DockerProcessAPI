@@ -31,6 +31,7 @@ down after the tests complete.
 * [Shutdown docker compose environment](#user-content-shutdown-docker-compose-environment)
 * [Log running docker compose environments](#user-content-log-running-docker-compose-environments)
 * [Log a specific docker compose configuration](#user-content-log-a-specific-docker-compose-configuration)
+* [Log output from docker-compose logs](#user-content-log-output-from-docker-compose-logs)
 
 ### Pull a Docker Image
 Issues 'docker pull'.
@@ -147,6 +148,16 @@ import guru.breakthemonolith.docker.DockerComposeConfiguration;
 ComposeCommandUtils.composeConfig(new DockerComposeConfiguration("myEnvironment.yml"));
 ```  
 
+### Log output from docker-compose logs
+Issues 'docker-compose logs'.
+
+Example usage:
+```  
+import guru.breakthemonolith.docker.ComposeCommandUtils;
+import guru.breakthemonolith.docker.DockerComposeConfiguration;
+
+ComposeCommandUtils.composeLogs(new DockerComposeConfiguration("myEnvironment.yml"));
+```  
 ## System Requirements
 * Java JDK 1.7 or later
 * Linux operating system or Windows 10 Pro or Enterprise with Hyper-V functioning with Docker
