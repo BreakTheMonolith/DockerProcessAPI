@@ -51,7 +51,7 @@ class CommandUtils {
 		String stdErr = IOUtils.toString(process.getErrorStream(), Charset.defaultCharset());
 	
 		logger.info(stdOut);
-		if (StringUtils.isNoneBlank(stdErr)) {
+		if (StringUtils.isNotBlank(stdErr)) {
 			logger.error(stdErr);
 		}
 		if (rc != 0) {
