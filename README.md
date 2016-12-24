@@ -12,14 +12,14 @@ Remote API.
 * *Integration testing* - Use DockerProcessAPI to bring up external services and products
 your application needs and shut down those products after your tests are over.
 
-* [System requirements and installation](#user-content-system-requirements)
-* [Report Issues](https://github.com/BreakTheMonolith/DockerProcessAPI/issues)
-* [Contributions](CONTRIBUTING.md)
-
 ## Usage Notes
 A full example can be found [here](https://github.com/BreakTheMonolith/btm-DropwizardHealthChecks/blob/master/btm-DropwizardHealthChecks-rabbitmq/src/test/java/guru/breakthemonolith/health/rabbitmq/RabbitMQHealthCheckTestIntegration.java). Note that this example utilizes @BeforeClass and @AfterClass
 methods to place logic to bring up an instance of RabbitMQ for integration test cases and shut them
 down after the tests complete.
+
+* [System requirements and installation](#user-content-system-requirements)
+* [Report Issues](https://github.com/BreakTheMonolith/DockerProcessAPI/issues)
+* [Contributions](CONTRIBUTING.md)
 
 ### Docker Examples
 * [Pull a docker image](#user-content-pull-a-docker-image)
