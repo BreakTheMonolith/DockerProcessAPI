@@ -13,6 +13,8 @@ Remote API.
 your application needs and shut down those products after your tests are over.
 
 * [System requirements and installation](#user-content-system-requirements)
+* [Report Issues](https://github.com/BreakTheMonolith/DockerProcessAPI/issues)
+* [Contributions](CONTRIBUTING.md)
 
 ## Usage Notes
 A full example can be found [here](https://github.com/BreakTheMonolith/btm-DropwizardHealthChecks/blob/master/btm-DropwizardHealthChecks-rabbitmq/src/test/java/guru/breakthemonolith/health/rabbitmq/RabbitMQHealthCheckTestIntegration.java). Note that this example utilizes @BeforeClass and @AfterClass
@@ -158,6 +160,10 @@ import guru.breakthemonolith.docker.DockerComposeConfiguration;
 
 ComposeCommandUtils.composeLogs(new DockerComposeConfiguration("myEnvironment.yml"));
 ```  
+
+## Reporting Issues
+Please report any problems and issues [here](https://github.com/BreakTheMonolith/DockerProcessAPI/issues)
+
 ## System Requirements
 * Java JDK 1.7 or later
 * Linux operating system or Windows 10 Pro or Enterprise with Hyper-V functioning with Docker

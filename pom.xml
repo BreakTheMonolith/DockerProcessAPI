@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>guru.breakthemonolith</groupId>
 	<artifactId>DockerProcessAPI</artifactId>
-	<version>0.1.0-rc4</version>
+	<version>0.1.0</version>
 	<name>DockerProcessAPI</name>
 	<description>DockerProcessAPI</description>
 
@@ -127,103 +127,103 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 		</plugins>
 
 	</build>
-	
+
 	<profiles>
-        <profile>
-            <id>Deploy</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <configuration>
-                                    <tasks>
-                                        <property environment="env" />
-                                        <fail if="${env.GPG_HOME}" message="GPG_HOME environment variable not defined." />
-                                        <mkdir dir="target/mavenrepo" />
-                                        <copy file="pom.xml"
-                                            tofile="target/mavenrepo/${project.name}-${project.version}.pom" />
-                                        <replace
-                                            file="target/mavenrepo/${project.name}-${project.version}.pom">
-                                            <replacefilter>
-                                                <replacetoken>$</replacetoken>
-                                                <replacevalue>#</replacevalue>
-                                            </replacefilter>
-                                            <replacefilter>
-                                                <replacetoken>#{project.version}</replacetoken>
-                                                <replacevalue>${project.version}</replacevalue>
-                                            </replacefilter>
-                                            <replacefilter>
-                                                <replacetoken>#{project.url}</replacetoken>
-                                                <replacevalue>${project.url}</replacevalue>
-                                            </replacefilter>
-                                            <replacefilter>
-                                                <replacetoken>#{project.name}</replacetoken>
-                                                <replacevalue>${project.name}</replacevalue>
-                                            </replacefilter>
-                                        </replace>
+		<profile>
+			<id>Deploy</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<configuration>
+									<tasks>
+										<property environment="env" />
+										<fail if="${env.GPG_HOME}" message="GPG_HOME environment variable not defined." />
+										<mkdir dir="target/mavenrepo" />
+										<copy file="pom.xml"
+											tofile="target/mavenrepo/${project.name}-${project.version}.pom" />
+										<replace
+											file="target/mavenrepo/${project.name}-${project.version}.pom">
+											<replacefilter>
+												<replacetoken>$</replacetoken>
+												<replacevalue>#</replacevalue>
+											</replacefilter>
+											<replacefilter>
+												<replacetoken>#{project.version}</replacetoken>
+												<replacevalue>${project.version}</replacevalue>
+											</replacefilter>
+											<replacefilter>
+												<replacetoken>#{project.url}</replacetoken>
+												<replacevalue>${project.url}</replacevalue>
+											</replacefilter>
+											<replacefilter>
+												<replacetoken>#{project.name}</replacetoken>
+												<replacevalue>${project.name}</replacevalue>
+											</replacefilter>
+										</replace>
 
-                                        <copy todir="target/mavenrepo">
-                                            <fileset dir="target" includes="*.jar" />
-                                        </copy>
+										<copy todir="target/mavenrepo">
+											<fileset dir="target" includes="*.jar" />
+										</copy>
 
-                                        <exec executable="cmd" dir="target/mavenrepo">
-                                            <env key="PATH" path="${env.GPG_HOME}" />
-                                            <arg line="/c" />
-                                            <arg line="gpg2.exe" />
-                                            <arg line="-ab" />
-                                            <arg
-                                                line="${project.build.directory}\mavenrepo\${project.name}-${project.version}.pom" />
-                                        </exec>
-                                        <exec executable="cmd" dir="target/mavenrepo">
-                                            <env key="PATH" path="${env.GPG_HOME}" />
-                                            <arg line="/c" />
-                                            <arg line="gpg2.exe" />
-                                            <arg line="-ab" />
-                                            <arg
-                                                line="${project.build.directory}\mavenrepo\${project.name}-${project.version}.jar" />
-                                        </exec>
-                                        <exec executable="cmd" dir="target/mavenrepo">
-                                            <env key="PATH" path="${env.GPG_HOME}" />
-                                            <arg line="/c" />
-                                            <arg line="gpg2.exe" />
-                                            <arg line="-ab" />
-                                            <arg
-                                                line="${project.build.directory}\mavenrepo\${project.name}-${project.version}-javadoc.jar" />
-                                        </exec>
-                                        <exec executable="cmd" dir="target/mavenrepo">
-                                            <env key="PATH" path="${env.GPG_HOME}" />
-                                            <arg line="/c" />
-                                            <arg line="gpg2.exe" />
-                                            <arg line="-ab" />
-                                            <arg
-                                                line="${project.build.directory}\mavenrepo\${project.name}-${project.version}-sources.jar" />
-                                        </exec>
-                                        <jar destfile="target/${project.name}-${project.version}-bundle.jar">
-                                            <fileset dir="target/mavenrepo" includes="*.jar" />
-                                            <fileset dir="target/mavenrepo" includes="*.pom" />
-                                            <fileset dir="target/mavenrepo" includes="*.asc" />
-                                        </jar>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+										<exec executable="cmd" dir="target/mavenrepo">
+											<env key="PATH" path="${env.GPG_HOME}" />
+											<arg line="/c" />
+											<arg line="gpg2.exe" />
+											<arg line="-ab" />
+											<arg
+												line="${project.build.directory}\mavenrepo\${project.name}-${project.version}.pom" />
+										</exec>
+										<exec executable="cmd" dir="target/mavenrepo">
+											<env key="PATH" path="${env.GPG_HOME}" />
+											<arg line="/c" />
+											<arg line="gpg2.exe" />
+											<arg line="-ab" />
+											<arg
+												line="${project.build.directory}\mavenrepo\${project.name}-${project.version}.jar" />
+										</exec>
+										<exec executable="cmd" dir="target/mavenrepo">
+											<env key="PATH" path="${env.GPG_HOME}" />
+											<arg line="/c" />
+											<arg line="gpg2.exe" />
+											<arg line="-ab" />
+											<arg
+												line="${project.build.directory}\mavenrepo\${project.name}-${project.version}-javadoc.jar" />
+										</exec>
+										<exec executable="cmd" dir="target/mavenrepo">
+											<env key="PATH" path="${env.GPG_HOME}" />
+											<arg line="/c" />
+											<arg line="gpg2.exe" />
+											<arg line="-ab" />
+											<arg
+												line="${project.build.directory}\mavenrepo\${project.name}-${project.version}-sources.jar" />
+										</exec>
+										<jar destfile="target/${project.name}-${project.version}-bundle.jar">
+											<fileset dir="target/mavenrepo" includes="*.jar" />
+											<fileset dir="target/mavenrepo" includes="*.pom" />
+											<fileset dir="target/mavenrepo" includes="*.asc" />
+										</jar>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-    </profiles>
+	</profiles>
 
 	<licenses>
 		<license>
